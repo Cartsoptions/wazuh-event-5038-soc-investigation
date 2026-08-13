@@ -92,19 +92,11 @@ flowchart LR
 
 # Investigation Walkthrough
 
-## 1. Validate storage and Wazuh health
+## 1. Validate Wazuh health
 
-Before trusting the alert data, I first verified the Wazuh server was healthy.
+Before trusting the alert data, I first verified that the Wazuh server components were healthy.
 
-The root logical volume had previously been expanded to provide sufficient headroom:
-
-```bash
-df -h /
-```
-
-![Expanded Ubuntu filesystem](images/01-disk-expanded.png)
-
-The Wazuh Manager, Indexer, and Dashboard were then checked individually:
+The Wazuh Manager, Indexer, and Dashboard were checked individually:
 
 ```bash
 sudo systemctl is-active wazuh-manager
@@ -182,17 +174,7 @@ and a Windows Code Integrity message indicating that the image hash of a file wa
 
 ![Event ID 5038 document details](images/11-event-5038-document-details.png)
 
-I then created a field-level filter:
-
-```text
-Field: data.win.system.eventID
-Operator: is
-Value: 5038
-```
-
-![Event ID filter editor](images/12-event-id-filter-editor.png)
-
-The resulting view isolated the Event ID 5038 events.
+I then filtered the event set on `data.win.system.eventID = 5038`. The resulting view isolated the relevant Code Integrity events.
 
 ![Event ID 5038 filtered events](images/13-event-id-5038-filtered.png)
 
@@ -218,15 +200,7 @@ identified the artifact:
 
 ![Affected file path in Wazuh](images/14-param1-filepath-document.png)
 
-I then created a filter on `data.win.eventdata.param1`.
-
-![File path filter editor](images/15-filepath-filter-editor.png)
-
-The available values showed the specific Surfshark Endpoint Protection path.
-
-![File path value picker](images/16-filepath-value-picker.png)
-
-The final filter isolated the events associated with that file.
+I filtered the events on `data.win.eventdata.param1` using the identified Surfshark Endpoint Protection path. The resulting event set isolated activity associated with the affected DLL.
 
 ![Filtered file path results](images/17-filepath-filter-result.png)
 
@@ -416,10 +390,9 @@ I would escalate if I found:
 wazuh-event-5038-soc-investigation/
 ├── README.md
 ├── INTERVIEW-NOTES.md
-├── .gitignore
 ├── docs/
+│   └── CASE-STUDY.md
 └── images/
-    ├── 01-disk-expanded.png
     ├── 02-wazuh-manager-active.png
     ├── 03-wazuh-indexer-active.png
     ├── 04-wazuh-dashboard-active.png
@@ -430,11 +403,8 @@ wazuh-event-5038-soc-investigation/
     ├── 09-events-table.png
     ├── 10-audit-failure-filter.png
     ├── 11-event-5038-document-details.png
-    ├── 12-event-id-filter-editor.png
     ├── 13-event-id-5038-filtered.png
     ├── 14-param1-filepath-document.png
-    ├── 15-filepath-filter-editor.png
-    ├── 16-filepath-value-picker.png
     ├── 17-filepath-filter-result.png
     ├── 18-authenticode-signature.png
     ├── 19-sha256-hash.png

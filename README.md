@@ -10,6 +10,12 @@
 
 ---
 
+## Skills Demonstrated
+
+`SIEM Alert Triage` • `Wazuh` • `Windows Event Logs` • `Threat Hunting` • `PowerShell` • `File Integrity Analysis` • `SHA-256` • `Authenticode` • `VirusTotal` • `Evidence Correlation` • `False-Positive Analysis` • `SOC Documentation`
+
+---
+
 ## Executive Summary
 
 While monitoring a Windows 11 endpoint in my Wazuh home SOC lab, I observed a high volume of **Windows audit failure** alerts. Instead of treating the generic Wazuh rule description as proof of compromise, I investigated the underlying Windows telemetry.
@@ -37,24 +43,6 @@ I then:
 The investigated file had a valid signature and the observed VirusTotal report showed **0/71 detections**. No additional evidence of compromise was identified in the scoped investigation.
 
 > A valid signature or 0/71 VirusTotal result is **not sufficient by itself** to declare a file safe. The verdict was based on correlation of multiple independent observations.
-
----
-
-## Skills Demonstrated
-
-- SIEM monitoring and alert triage
-- Wazuh threat hunting
-- Windows Security Event analysis
-- Event filtering and field-level investigation
-- Endpoint artifact identification
-- PowerShell-based file validation
-- Authenticode signature verification
-- SHA-256 hashing
-- Threat-intelligence enrichment
-- Evidence correlation
-- False-positive analysis
-- SOC ticket documentation
-- Analyst escalation/closure decision-making
 
 ---
 
